@@ -1,0 +1,8 @@
+---
+
+# Debian specific vars
+
+kibana_packages:
+  - 'kibana'
+
+kibana_service_name: 'kibana'

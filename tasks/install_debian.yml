@@ -1,0 +1,52 @@
+---
+
+- name: 'Install kibana key'
+  become: True
+  apt_key:
+    url: 'https://packages.elastic.co/GPG-KEY-elasticsearch'
+    state: 'present'
+
+
+- name: 'Add kibana repository'
+  become: True
+  template:
+    dest: '/etc/apt/sources.list.d/kibana.list'
+    src: "{{ role_path }}/templates/etc/apt/sources.list.d/kibana.list.j2"
+    group: 'root'
+    owner: 'root'
+    mode: '0644'
+  register: 'kibana_repository_updated'
+
+
+- name: 'Update packages list if repository updated'
+  become: True
+  apt:
+    update_cache: True
+  when: "{{ kibana_repository_updated | changed }}"
+
+
+- name: 'Update packages list if cache is too old'
+  become: True
+  apt:
+    update_cache: True
+    cache_valid_time: "{{ kibana_apt_cache_valid_time }}"
+
+
+- name: 'Install kibana'
+  become: True
+  package:
+    name: "{{ item }}"
+    state: "{{ kibana_package_state }}"
+  with_items: "{{ kibana_packages }}"
+  notify:
+    - 'restart kibana'
+
+
+- name: 'Manage kibana service'
+  become: True
+  service:
+    name: "{{ kibana_service_name }}"
+    enabled: "{{ kibana_service_enabled }}"
+    state: "{{ kibana_service_state }}"
+  notify:
+    - 'restart kibana'

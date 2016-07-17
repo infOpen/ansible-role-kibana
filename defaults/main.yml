@@ -2,3 +2,11 @@
 
 # Defaults vars file for kibana role
 
+# Package and repository variables
+kibana_apt_cache_valid_time: 3600
+kibana_package_state: 'latest'
+kibana_version: '4.5'
+
+# Service management
+kibana_service_enabled: True
+kibana_service_state: 'started'
