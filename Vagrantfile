@@ -5,9 +5,6 @@
 VAGRANTFILE_API_VERSION = '2'
 
 VMS = {
-  :kibana_trusty => {
-    :box => 'ubuntu/trusty64'
-  },
   :kibana_xenial => {
     :box => 'ubuntu/xenial64'
   }
