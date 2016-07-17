@@ -2,3 +2,9 @@
 
 # Handlers main file for kibana role
 
+- name: 'restart kibana'
+  become: True
+  service:
+    name: "{{ kibana_service_name }}"
+    state: 'restarted'
+  when: "{{ kibana_service_state != 'stopped' }}"
