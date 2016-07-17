@@ -13,6 +13,7 @@
 
 # Vagrant
 .vagrant
+*.log
 
-# Bundle
-.bundle
+# Ansible
+*.retry
