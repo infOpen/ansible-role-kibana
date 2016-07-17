@@ -38,3 +38,66 @@ def test_service(Command, Service, Socket):
     assert Service('kibana').is_running
     assert Command('systemctl status kibana').rc == 0
     assert Socket("tcp://0.0.0.0:5601").is_listening
+
+
+def test_config_files(File):
+    """
+    Test about config files
+    """
+
+    files = ['/etc/default/kibana', '/opt/kibana/config/kibana.yml']
+
+    for file_name in files:
+        current_file = File(file_name)
+
+        assert current_file.exists
+        assert current_file.is_file
+        assert current_file.user == 'kibana'
+        assert current_file.group == 'kibana'
+        assert current_file.mode == 0o400
+
+    logrotate_config = File('/etc/logrotate.d/kibana')
+
+    assert logrotate_config.exists
+    assert logrotate_config.is_file
+    assert logrotate_config.user == 'root'
+    assert logrotate_config.group == 'root'
+    assert logrotate_config.mode == 0o400
+
+
+def test_folders(File):
+    """
+    Test about log and pid folders
+    """
+
+    folders = ['/var/log/kibana', '/var/run/kibana']
+
+    for folder in folders:
+        current_folder = File(folder)
+
+        assert current_folder.exists
+        assert current_folder.is_directory
+        assert current_folder.user == 'kibana'
+        assert current_folder.group == 'kibana'
+        assert current_folder.mode == 0o700
+
+
+def test_group(Group):
+    """
+    Test about Kibana group
+    """
+
+    assert Group('kibana').exists
+
+
+def test_user(User):
+    """
+    Test about Kibana user
+    """
+
+    user = User('kibana')
+
+    assert user.exists
+    assert user.group == 'kibana'
+    assert user.home == '/home/kibana'
+    assert user.shell == '/usr/sbin/nologin'

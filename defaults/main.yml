@@ -10,3 +10,68 @@ kibana_version: '4.5'
 # Service management
 kibana_service_enabled: True
 kibana_service_state: 'started'
+
+# User and group management
+kibana_user_name: 'kibana'
+kibana_user_shell: '/usr/sbin/nologin'
+kibana_group_name: 'kibana'
+
+# Path management
+kibana_main_config_file_path: '/opt/kibana/config/kibana.yml'
+kibana_config_files_owner: 'kibana'
+kibana_config_files_group: 'kibana'
+kibana_config_files_mode: '0400'
+kibana_log_folder_path: '/var/log/kibana'
+kibana_log_folder_owner: "{{ kibana_user_name }}"
+kibana_log_folder_group: "{{ kibana_group_name }}"
+kibana_log_folder_mode: '0700'
+kibana_pid_folder_path: '/var/run/kibana'
+kibana_pid_folder_owner: "{{ kibana_user_name }}"
+kibana_pid_folder_group: "{{ kibana_group_name }}"
+kibana_pid_folder_mode: '0700'
+
+# Default configuration settings
+kibana_default_user: 'kibana'
+kibana_default_group: 'root'
+kibana_default_chroot: '/'
+kibana_default_chdir: '/'
+kibana_default_nice: ''
+
+# Main configuration file settings
+kibana_cfg_server_port: 5601
+kibana_cfg_server_host: '0.0.0.0'
+kibana_cfg_server_base_path: ''
+kibana_cfg_server_max_payload_bytes: 1048576
+kibana_cfg_elasticsearch_url: 'http://localhost:9200'
+kibana_cfg_elasticsearch_preserve_host: 'true'
+kibana_cfg_kibana_index: '.kibana'
+kibana_cfg_kibana_default_app_id: 'discover'
+kibana_cfg_elasticsearch_username: ''
+kibana_cfg_elasticsearch_password: ''
+kibana_cfg_server_ssl_cert: ''
+kibana_cfg_server_ssl_key: ''
+kibana_cfg_elasticsearch_ssl_cert: ''
+kibana_cfg_elasticsearch_ssl_key: ''
+kibana_cfg_elasticsearch_ssl_ca: ''
+kibana_cfg_elastic_search_ssl_verify: 'true'
+kibana_cfg_elasticsearch_ping_timeout: 1500
+kibana_cfg_elasticsearch_request_timeout: 30000
+kibana_cfg_elasticsearch_shard_timeout: 0
+kibana_cfg_elasticsearch_startup_timeout: 5000
+kibana_cfg_pid_file: "{{ kibana_pid_folder_path }}/kibana.pid"
+kibana_cfg_logging_dest: "{{ kibana_log_folder_path }}/kibana.log"
+kibana_cfg_logging_silent: 'false'
+kibana_cfg_logging_quiet: 'false'
+kibana_cfg_logging_verbose: 'false'
+
+# Logrotate settings
+kibana_logrotate_rules:
+  - 'daily'
+  - 'dateext'
+  - 'dateformat _%Y-%m-%d'
+  - 'rotate 31'
+  - 'copytruncate'
+  - 'compress'
+  - 'delaycompress'
+  - 'missingok'
+  - "create 644 {{ kibana_user_name }} {{ kibana_group_name }}"

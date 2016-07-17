@@ -1,0 +1,69 @@
+---
+
+- name: 'Manage user shell configuration'
+  become: True
+  user:
+    name: "{{ kibana_user_name }}"
+    shell: "{{ kibana_user_shell }}"
+  notify:
+    - 'restart kibana'
+
+
+- name: 'Manage log directory'
+  become: True
+  file:
+    path: "{{ kibana_log_folder_path }}"
+    state: 'directory'
+    owner: "{{ kibana_log_folder_owner }}"
+    group: "{{ kibana_log_folder_group }}"
+    mode: "{{ kibana_log_folder_mode }}"
+  notify:
+    - 'restart kibana'
+
+
+- name: 'Manage pid directory'
+  become: True
+  file:
+    path: "{{ kibana_pid_folder_path }}"
+    state: 'directory'
+    owner: "{{ kibana_pid_folder_owner }}"
+    group: "{{ kibana_pid_folder_group }}"
+    mode: "{{ kibana_pid_folder_mode }}"
+  notify:
+    - 'restart kibana'
+
+
+- name: 'Generate main config file'
+  become: True
+  template:
+    src: "{{ role_path }}/templates/opt/kibana/config/kibana.yml.j2"
+    dest: "{{ kibana_main_config_file_path }}"
+    group: "{{ kibana_config_files_group }}"
+    owner: "{{ kibana_config_files_owner }}"
+    mode: "{{ kibana_config_files_mode }}"
+  notify:
+    - 'restart kibana'
+
+
+- name: 'Generate default config file'
+  become: True
+  template:
+    src: "{{ role_path }}/templates/etc/default/kibana.j2"
+    dest: '/etc/default/kibana'
+    group: "{{ kibana_config_files_group }}"
+    owner: "{{ kibana_config_files_owner }}"
+    mode: "{{ kibana_config_files_mode }}"
+  notify:
+    - 'restart kibana'
+
+
+- name: 'Generate logrotate config file'
+  become: True
+  template:
+    src: "{{ role_path }}/templates/etc/logrotate.d/kibana.j2"
+    dest: '/etc/logrotate.d/kibana'
+    group: 'root'
+    owner: 'root'
+    mode: "{{ kibana_config_files_mode }}"
+  notify:
+    - 'restart kibana'

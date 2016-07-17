@@ -1,0 +1,7 @@
+# {{ ansible_managed }}
+
+{{ kibana_log_folder_path }}/*.log {
+{% for rule in kibana_logrotate_rules %}
+  {{ rule }}
+{% endfor %}
+}
