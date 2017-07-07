@@ -1,0 +1,17 @@
+---
+
+# Debian OS family specific vars
+
+# Packages and repositories management
+_kibana_system_dependencies:
+  - name: 'ca-certificates'
+
+_kibana_repositories:
+  - repo: "deb http://packages.elastic.co/kibana/{{ kibana_version }}/debian stable main"
+
+_kibana_packages:
+  - name: 'kibana'
+
+
+# Service management
+_kibana_service_name: 'kibana'

@@ -4,11 +4,14 @@
 
 # Package and repository variables
 kibana_apt_cache_valid_time: 3600
-kibana_package_state: 'latest'
+kibana_packages: "{{ _kibana_packages }}"
+kibana_repositories: "{{ _kibana_repositories }}"
+kibana_system_dependencies: "{{ _kibana_system_dependencies }}"
 kibana_version: '4.5'
 
 # Service management
 kibana_service_enabled: True
+kibana_service_name: "{{ _kibana_service_name }}"
 kibana_service_state: 'started'
 
 # User and group management
@@ -23,8 +26,8 @@ kibana_config_files_group: 'kibana'
 kibana_config_files_mode: '0400'
 kibana_log_folder_path: '/var/log/kibana'
 kibana_log_folder_owner: "{{ kibana_user_name }}"
-kibana_log_folder_group: "{{ kibana_group_name }}"
-kibana_log_folder_mode: '0700'
+kibana_log_folder_group: 'root'
+kibana_log_folder_mode: '0755'
 kibana_pid_folder_path: '/var/run/kibana'
 kibana_pid_folder_owner: "{{ kibana_user_name }}"
 kibana_pid_folder_group: "{{ kibana_group_name }}"

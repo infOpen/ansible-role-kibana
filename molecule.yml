@@ -16,9 +16,15 @@ docker:
     - name: 'kibana-docker-jessie'
       image: 'debian'
       image_version: 'jessie'
+      privileged: True
+      cap_add:
+        - 'SYS_PTRACE'
     - name: 'kibana-docker-xenial'
       image: 'ubuntu'
       image_version: 'xenial'
+      privileged: True
+      cap_add:
+        - 'SYS_PTRACE'
 molecule:
   ignore_paths:
     - '.git'
