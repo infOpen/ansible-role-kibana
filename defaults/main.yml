@@ -7,7 +7,7 @@ kibana_apt_cache_valid_time: 3600
 kibana_packages: "{{ _kibana_packages }}"
 kibana_repositories: "{{ _kibana_repositories }}"
 kibana_system_dependencies: "{{ _kibana_system_dependencies }}"
-kibana_version: '4.5'
+kibana_version: '5.x'
 
 # Service management
 kibana_service_enabled: True
@@ -20,7 +20,7 @@ kibana_user_shell: '/usr/sbin/nologin'
 kibana_group_name: 'kibana'
 
 # Path management
-kibana_main_config_file_path: '/opt/kibana/config/kibana.yml'
+kibana_main_config_file_path: '/etc/kibana/kibana.yml'
 kibana_config_files_owner: 'kibana'
 kibana_config_files_group: 'kibana'
 kibana_config_files_mode: '0400'

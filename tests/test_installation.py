@@ -55,7 +55,7 @@ def test_socket(host):
 
 @pytest.mark.parametrize('name,user,group,mode', [
     ('/etc/default/kibana', 'kibana', 'kibana', 0o400),
-    ('/opt/kibana/config/kibana.yml', 'kibana', 'kibana', 0o400),
+    ('/etc/kibana/kibana.yml', 'kibana', 'kibana', 0o400),
     ('/etc/logrotate.d/kibana', 'root', 'root', 0o400),
 ])
 def test_config_files(host, name, user, group, mode):

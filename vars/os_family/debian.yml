@@ -5,9 +5,10 @@
 # Packages and repositories management
 _kibana_system_dependencies:
   - name: 'ca-certificates'
+  - name: 'apt-transport-https'
 
 _kibana_repositories:
-  - repo: "deb http://packages.elastic.co/kibana/{{ kibana_version }}/debian stable main"
+  - repo: "deb https://artifacts.elastic.co/packages/{{ kibana_version }}/apt stable main"
 
 _kibana_packages:
   - name: 'kibana'
