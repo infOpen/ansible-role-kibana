@@ -1,0 +1,18 @@
+---
+
+# Debian OS family specific vars
+
+# Packages and repositories management
+_kibana_system_dependencies:
+  - name: 'ca-certificates'
+  - name: 'apt-transport-https'
+
+_kibana_repositories:
+  - repo: "deb https://artifacts.elastic.co/packages/{{ kibana_version }}/apt stable main"
+
+_kibana_packages:
+  - name: 'kibana'
+
+
+# Service management
+_kibana_service_name: 'kibana'

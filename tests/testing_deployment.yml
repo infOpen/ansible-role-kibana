@@ -1,9 +1,0 @@
----
-
-# Role travis tests
-
-- hosts: all
-  roles:
-    - role: "."
-  vars:
-    role_name: "{{ playbook_dir | dirname | basename }}"

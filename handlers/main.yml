@@ -2,9 +2,13 @@
 
 # Handlers main file for kibana role
 
-- name: 'restart kibana'
+- name: 'HANDLER | Restart kibana'
   become: True
   service:
     name: "{{ kibana_service_name }}"
     state: 'restarted'
-  when: "{{ kibana_service_state != 'stopped' }}"
+  when: "kibana_service_state != 'stopped'"
+  tags:
+    - 'role::kibana'
+    - 'role::kibana::install'
+    - 'role::kibana::configure'

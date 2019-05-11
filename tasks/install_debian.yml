@@ -1,52 +1,44 @@
 ---
 
-- name: 'Install kibana key'
-  become: True
+- name: 'INSTALL | APT | Manage system dependencies'
+  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
+    update_cache: True
+    cache_valid_time: "{{ kibana_apt_cache_valid_time }}"
+  with_items: "{{ kibana_system_dependencies }}"
+
+
+- name: 'INSTALL | APT | Install Kibana GPG key'
   apt_key:
     url: 'https://packages.elastic.co/GPG-KEY-elasticsearch'
     state: 'present'
 
 
-- name: 'Add kibana repository'
-  become: True
-  template:
-    dest: '/etc/apt/sources.list.d/kibana.list'
-    src: "{{ role_path }}/templates/etc/apt/sources.list.d/kibana.list.j2"
-    group: 'root'
-    owner: 'root'
-    mode: '0644'
-  register: 'kibana_repository_updated'
+- name: 'INSTALL | APT | Add Kibana repository'
+  apt_repository:
+    repo: "{{ item.repo }}"
+    state: "{{ item.state | default('present') }}"
+    filename: "{{ item.filename | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+  with_items: "{{ kibana_repositories }}"
 
 
-- name: 'Update packages list if repository updated'
-  become: True
+- name: 'INSTALL | APT | Install Kibana packages'
   apt:
-    update_cache: True
-  when: "{{ kibana_repository_updated | changed }}"
-
-
-- name: 'Update packages list if cache is too old'
-  become: True
-  apt:
+    name: "{{ item.name }}"
+    state: "{{ item.state | default('present') }}"
     update_cache: True
     cache_valid_time: "{{ kibana_apt_cache_valid_time }}"
-
-
-- name: 'Install kibana'
-  become: True
-  package:
-    name: "{{ item }}"
-    state: "{{ kibana_package_state }}"
   with_items: "{{ kibana_packages }}"
   notify:
-    - 'restart kibana'
+    - 'HANDLER | Restart kibana'
 
 
-- name: 'Manage kibana service'
-  become: True
+- name: 'INSTALL | SERVICE | Manage Kibana service'
   service:
     name: "{{ kibana_service_name }}"
     enabled: "{{ kibana_service_enabled }}"
     state: "{{ kibana_service_state }}"
   notify:
-    - 'restart kibana'
+    - 'HANDLER | Restart kibana'

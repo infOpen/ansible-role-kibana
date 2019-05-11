@@ -1,17 +1,16 @@
 ---
 
 galaxy_info:
-  author: Alexandre Chaussier
-  description: Ansible role to manage Kibana installation and configuration
-  company: Infopen (http://www.infopen.pro)
-  license: MIT
-  min_ansible_version: 2.1
-  github_branch: master
+  author: 'Alexandre Chaussier'
+  description: 'Ansible role to manage Kibana installation and configuration'
+  company: 'Infopen (http://www.infopen.pro)'
+  license: 'MIT'
+  min_ansible_version: '2.1'
+  github_branch: 'master'
   platforms:
-    - name: Ubuntu
+    - name: 'Ubuntu'
       versions:
-        - xenial
+        - 'xenial'
   galaxy_tags:
-    - system
+    - 'system'
 dependencies: []
-

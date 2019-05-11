@@ -2,21 +2,25 @@
 
 # Tasks file for kibana
 
-- name: 'Load the OS specific varibles'
-  include_vars: "{{ role_path }}/vars/{{ ansible_os_family | lower }}.yml"
+- name: 'INIT | Manage variables to use for our target'
+  include: "{{ role_path }}/tasks/manage_variables.yml"
   tags:
-    - 'install'
-    - 'kibana'
+    - 'role::kibana'
+    - 'role::kibana::init'
+    - 'role::kibana::install'
+    - 'role::kibana::configure'
 
 
-- include: 'install_debian.yml'
-  when: "{{ ansible_os_family == 'Debian' }}"
+- name: 'INSTALL | Include installation tasks for OS family'
+  become: True
+  include: "{{ role_path }}/tasks/install_{{ ansible_os_family | lower }}.yml"
   tags:
-    - 'install'
-    - 'kibana'
+    - 'role::kibana'
+    - 'role::kibana::install'
 
 
-- include: 'configure.yml'
+- name: 'CONFIG | Include configuration tasks'
+  include: "{{ role_path }}/tasks/configure.yml"
   tags:
-    - 'configure'
-    - 'kibana'
+    - 'role::kibana'
+    - 'role::kibana::configure'
